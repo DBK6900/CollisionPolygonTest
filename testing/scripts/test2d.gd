@@ -10,10 +10,10 @@ func _ready() -> void:
 	var bitmap: BitMap = BitMap.new()
 	bitmap.create_from_image_alpha(texture.get_image())
 
-	var polys: PackedVector2Array = bitmap.opaque_to_polygons(Rect2(Vector2.ZERO, texture.get_size()), 1.0)
+	var polys: Array[PackedVector2Array] = bitmap.opaque_to_polygons(rect, 10.0) # PackedVector2Array = bitmap.opaque_to_polygons(Rect2(Vector2.ZERO, texture.get_size()), 1.0) this was my mistake
 	for poly in polys:
 		var collision_polygon: CollisionPolygon2D = CollisionPolygon2D.new()
-		collision_polygon.appen(poly)
+		collision_polygon = poly # .append(poly) and here
 		area.add_child(collision_polygon)
 
 		# Generated polygon will not take into account the half-width and half-height offset
