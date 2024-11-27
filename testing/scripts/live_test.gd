@@ -44,14 +44,14 @@ func set_poly() -> void:
 	var _scale: float = source_sprite.pixel_size
 	var rect: Rect2 = Rect2(0,0,image.get_width(),image.get_height())
 	print("Rect2: " + str(rect))
-	var polys: PackedVector2Array = bitmap.opaque_to_polygons(rect, 10.0) # Set to 0.0 for pixel perfect
+	var polys: Array[PackedVector2Array] = bitmap.opaque_to_polygons(rect, 10.0) # PackedVector2Array = bitmap.opaque_to_polygons(rect, 10.0) # Set to 0.0 for pixel perfect # there was my mistake
 	print("Polys: " + str(polys))
 	# Flip and resize for 3D
 	var _transform: Transform2D = Transform2D.FLIP_Y * Transform2D(0, Vector2(_scale, _scale), 0, Vector2.ZERO)
 	for poly in polys:
 		var collision_polygon: CollisionPolygon3D = CollisionPolygon3D.new()
 		collision_polygon.depth = 0.05 # Increase if you want fake depth (e.g. with stacked sprites)
-		collision_polygon.polygon.append(poly * _transform)
+		collision_polygon.polygon = (poly * _transform) # .append(poly * _transform) # and here
 		print("Poly * transform: " + str(poly * _transform))
 		target_parent.add_child(collision_polygon)
 		# Shift the shape to match the sprite (it's usually centered)
